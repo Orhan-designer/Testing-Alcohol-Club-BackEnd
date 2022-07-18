@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 
 const { initializeApp } = require("firebase/app");
-const { getDatabase, set, ref } = require("firebase/database");
+const { getDatabase, set, ref, update } = require("firebase/database");
 const { getAuth } = require("firebase/auth");
 
 const {
@@ -11,14 +11,14 @@ const {
 } = require("firebase/auth");
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCFt_xPe1jT0lVJNNbN6QuY9MiLv2RFwjo",
-    authDomain: "alcohol-testing-club.firebaseapp.com",
-    databaseURL: "https://alcohol-testing-club-default-rtdb.firebaseio.com",
-    projectId: "alcohol-testing-club",
-    storageBucket: "alcohol-testing-club.appspot.com",
-    messagingSenderId: "838324151844",
-    appId: "1:838324151844:web:1cda3f45abc660dd909ab1",
-    measurementId: "G-M0MZL7DHWM"
+    apiKey: "AIzaSyCvk-WvSpwt3mFGAGl5vUKdSXekdr9Eotc",
+    authDomain: "testing-alcohol-club-f6e1d.firebaseapp.com",
+    databaseURL: "https://testing-alcohol-club-f6e1d-default-rtdb.firebaseio.com",
+    projectId: "testing-alcohol-club-f6e1d",
+    storageBucket: "testing-alcohol-club-f6e1d.appspot.com",
+    messagingSenderId: "161740699903",
+    appId: "1:161740699903:web:90eefd850c130458e0b4ca",
+    // measurementId: "G-7YHM95B8DK"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -41,11 +41,12 @@ exports.signUp = (req, res) => {
             const user = userCredential.user;
             const password = userCredential.user.reloadUserInfo.passwordHash;
 
-            set(ref(database, "users/" + user.uid), {
+            set(ref(database, 'users/' + user.uid), {
                 firstName: firstName,
                 lastName: lastName,
                 birthDay: birthDay,
                 email: email,
+                password: password
             });
             res.status(200).json({ token: token, user: { firstName, lastName, birthDay, email, password } });
         })
@@ -57,3 +58,40 @@ exports.signUp = (req, res) => {
         });
 };
 
+exports.signIn = (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if (password) {
+        const token = jwt.sign(
+            {
+                email: email,
+            },
+            "supersecret",
+            {
+                expiresIn: 120 * 120,
+            }
+        );
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                const password = userCredential.user.reloadUserInfo.passwordHash;
+                const dt = new Date();
+
+                update(ref(database, "users/" + user.uid), {
+                    email: email,
+                    last_login: dt,
+                });
+                res
+                    .status(200)
+                    .send({ token: token, user: { email: email, password: password } });
+            })
+            .catch((error) => {
+                res.status(400).send({
+                    message: "User already exist",
+                    error,
+                });
+            });
+    }
+};
