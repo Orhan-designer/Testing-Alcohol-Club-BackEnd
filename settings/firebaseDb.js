@@ -49,9 +49,8 @@ exports.signUp = (req, res) => {
 
             db.query(userSql, (error, result) => {
                 if (error) {
-                    console.log(error)
+                    res.send(400).json({ result: error })
                 } else {
-                    console.log(result)
                     console.log('user create in mysql')
                     // res.status(200).json({ email, firstName, lastName, birthday })
                 }
@@ -60,7 +59,7 @@ exports.signUp = (req, res) => {
             set(ref(database, 'users/' + user.uid), {
                 email: email,
             });
-            res.status(200).json({ token: token, user: { email, password, firstName, lastName, birthday } });
+            res.status(200).json({ token: `Bearer ${token}`, user: { email, password, firstName, lastName, birthday } });
         })
         .catch((error) => {
             res.status(400).json({
@@ -68,22 +67,6 @@ exports.signUp = (req, res) => {
                 error,
             });
         });
-
-    // const userSql = "INSERT INTO users(email, firstName, lastName, birthday) VALUES('" +
-    //     email + "', '" +
-    //     firstName + "', '" +
-    //     lastName + "', '" +
-    //     birthday + "')";
-
-    // db.query(userSql, (error, result) => {
-    //     if (error) {
-    //         console.log(error)
-    //     } else {
-    //         console.log(result)
-    //         console.log('user create in mysql')
-    //         // res.status(200).json({ email, firstName, lastName, birthday })
-    //     }
-    // })
 
 };
 
@@ -105,17 +88,25 @@ exports.signIn = (req, res) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log(user)
                 const password = userCredential.user.reloadUserInfo.passwordHash;
                 const dt = new Date();
+
+                const userSql = `SELECT * FROM users`;
+
+                db.query(userSql, (error, result) => {
+                    if (error) {
+                        console.log(error)
+                    } else {
+                        console.log(result)
+                        res.status(200).send({ token: `Bearer ${token}`, user: { email: email, password: password, firstName: result[0].firstName, lastName: result[0].lastName, birthday: result[0].birthday } });
+                    }
+                })
 
                 update(ref(database, "users/" + user.uid), {
                     email: email,
                     last_login: dt,
                 });
-                res
-                    .status(200)
-                    .send({ token: token, user: { email: email, password: password, userId: user.uid } });
+
             })
             .catch((error) => {
                 res.status(400).send({
