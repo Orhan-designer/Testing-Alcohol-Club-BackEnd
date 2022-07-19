@@ -1,6 +1,9 @@
 module.exports = (app) => {
-    const user = require('./firebaseDb');
+    const userCreateForFirebase = require('./firebaseDb');
+    const userCreateForMysql = require('./../Controllers/usersController');
 
-    app.route('/api/auth/signup').post(user.signUp);
-    app.route('/api/auth/signin').post(user.signIn);
+    app.route('/api/auth/signup').post(userCreateForFirebase.signUp);
+    // app.route('/api/auth/signup').post(userCreateForMysql.signUp)
+    // app.route('/api/auth/signin').post(userCreateForFirebase.signIn);
+
 }

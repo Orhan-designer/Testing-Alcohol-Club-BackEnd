@@ -1,5 +1,6 @@
 // const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const db = require('./../settings/mysqlDb');
 
 const { initializeApp } = require("firebase/app");
 const { getDatabase, set, ref, update } = require("firebase/database");
@@ -26,7 +27,9 @@ const database = getDatabase(app);
 const auth = getAuth();
 
 exports.signUp = (req, res) => {
-    console.log(req.body)
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const birthday = req.body.birthday;
     const email = req.body.email;
     const password = req.body.password;
 
@@ -38,10 +41,26 @@ exports.signUp = (req, res) => {
             const user = userCredential.user;
             const password = userCredential.user.reloadUserInfo.passwordHash;
 
+            const userSql = "INSERT INTO users(email, firstName, lastName, birthday) VALUES('" +
+                email + "', '" +
+                firstName + "', '" +
+                lastName + "', '" +
+                birthday + "')";
+
+            db.query(userSql, (error, result) => {
+                if (error) {
+                    console.log(error)
+                } else {
+                    console.log(result)
+                    console.log('user create in mysql')
+                    // res.status(200).json({ email, firstName, lastName, birthday })
+                }
+            })
+
             set(ref(database, 'users/' + user.uid), {
                 email: email,
             });
-            res.status(200).json({ token: token, user: { email, password } });
+            res.status(200).json({ token: token, user: { email, password, firstName, lastName, birthday } });
         })
         .catch((error) => {
             res.status(400).json({
@@ -49,6 +68,23 @@ exports.signUp = (req, res) => {
                 error,
             });
         });
+
+    // const userSql = "INSERT INTO users(email, firstName, lastName, birthday) VALUES('" +
+    //     email + "', '" +
+    //     firstName + "', '" +
+    //     lastName + "', '" +
+    //     birthday + "')";
+
+    // db.query(userSql, (error, result) => {
+    //     if (error) {
+    //         console.log(error)
+    //     } else {
+    //         console.log(result)
+    //         console.log('user create in mysql')
+    //         // res.status(200).json({ email, firstName, lastName, birthday })
+    //     }
+    // })
+
 };
 
 exports.signIn = (req, res) => {
