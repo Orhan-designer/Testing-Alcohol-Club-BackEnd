@@ -7,7 +7,7 @@ const { getAuth } = require("firebase/auth");
 
 const {
     createUserWithEmailAndPassword,
-    /* signInWithEmailAndPassword, */
+    signInWithEmailAndPassword,
 } = require("firebase/auth");
 
 const firebaseConfig = {
@@ -27,9 +27,6 @@ const auth = getAuth();
 
 exports.signUp = (req, res) => {
     console.log(req.body)
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const birthDay = req.body.birthDate;
     const email = req.body.email;
     const password = req.body.password;
 
@@ -40,15 +37,18 @@ exports.signUp = (req, res) => {
         .then((userCredential) => {
             const user = userCredential.user;
             const password = userCredential.user.reloadUserInfo.passwordHash;
+            const firstName = req.body.firstName;
+            const lastName = req.body.lastName;
+            const birthday = req.body.birthday;
 
             set(ref(database, 'users/' + user.uid), {
+                email: email,
+                password: password,
                 firstName: firstName,
                 lastName: lastName,
-                birthDay: birthDay,
-                email: email,
-                password: password
+                birthday: birthday
             });
-            res.status(200).json({ token: token, user: { firstName, lastName, birthDay, email, password } });
+            res.status(200).json({ token: token, user: { email, password, firstName, lastName, birthday } });
         })
         .catch((error) => {
             res.status(400).json({
