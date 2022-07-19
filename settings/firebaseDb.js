@@ -39,27 +39,42 @@ exports.signUp = (req, res) => {
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            const password = userCredential.user.reloadUserInfo.passwordHash;
+            // const password = userCredential.user.reloadUserInfo.passwordHash;
 
-            const userSql = "INSERT INTO users(email, firstName, lastName, birthday) VALUES('" +
-                email + "', '" +
-                firstName + "', '" +
-                lastName + "', '" +
-                birthday + "')";
+            const selectUser = "SELECT id, email, firstName, lastName, birthday FROM users WHERE email = '" + email + "'"
 
-            db.query(userSql, (error, result) => {
+            db.query(selectUser, (error, selectUserResult) => {
                 if (error) {
-                    res.send(400).json({ result: error })
+                    res.status(400).send(error)
+                } else if (typeof selectUserResult !== 'undefined' && selectUserResult.length > 0) {
+                    const row = JSON.parse(JSON.stringify(selectUserResult))
+
+                    row.map(() => {
+                        res.status(302, { error: `user with this email ${email} already exists` }, res)
+                        return true;
+                    })
                 } else {
-                    console.log('user create in mysql')
-                    // res.status(200).json({ email, firstName, lastName, birthday })
+                    const userSql = "INSERT INTO users(email, firstName, lastName, birthday) VALUES('" +
+                        email + "', '" +
+                        firstName + "', '" +
+                        lastName + "', '" +
+                        birthday + "')";
+
+                    db.query(userSql, (error, result) => {
+                        if (error) {
+                            res.send(400).json({ result: error })
+                        } else {
+                            console.log('user create in mysql')
+                            return result;
+                        }
+                    })
+
+                    set(ref(database, 'users/' + user.uid), {
+                        email: email,
+                    });
+                    res.status(200).json({ message: 'User successfully registered', token: `Bearer ${token}`, user: { email, firstName, lastName, birthday } });
                 }
             })
-
-            set(ref(database, 'users/' + user.uid), {
-                email: email,
-            });
-            res.status(200).json({ token: `Bearer ${token}`, user: { email, password, firstName, lastName, birthday } });
         })
         .catch((error) => {
             res.status(400).json({
@@ -97,8 +112,7 @@ exports.signIn = (req, res) => {
                     if (error) {
                         console.log(error)
                     } else {
-                        console.log(result)
-                        res.status(200).send({ token: `Bearer ${token}`, user: { email: email, password: password, firstName: result[0].firstName, lastName: result[0].lastName, birthday: result[0].birthday } });
+                        res.status(200).send({ message: 'User successfully sign in', token: `Bearer ${token}`, user: { email: email, firstName: result[0].firstName, lastName: result[0].lastName, birthday: result[0].birthday } });
                     }
                 })
 
