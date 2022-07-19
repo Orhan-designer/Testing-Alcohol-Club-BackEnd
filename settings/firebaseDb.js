@@ -64,7 +64,6 @@ exports.signUp = (req, res) => {
                         if (error) {
                             res.send(400).json({ result: error })
                         } else {
-                            console.log('user create in mysql')
                             return result;
                         }
                     })
@@ -78,7 +77,7 @@ exports.signUp = (req, res) => {
         })
         .catch((error) => {
             res.status(400).json({
-                message: "Cannot register user",
+                message: "User already exists",
                 error,
             });
         });
@@ -103,7 +102,7 @@ exports.signIn = (req, res) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                const password = userCredential.user.reloadUserInfo.passwordHash;
+                // const password = userCredential.user.reloadUserInfo.passwordHash;
                 const dt = new Date();
 
                 const userSql = `SELECT * FROM users`;
@@ -124,7 +123,7 @@ exports.signIn = (req, res) => {
             })
             .catch((error) => {
                 res.status(400).send({
-                    message: "User already exist",
+                    message: "Invalid email or password",
                     error,
                 });
             });
