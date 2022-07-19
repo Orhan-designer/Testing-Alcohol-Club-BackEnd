@@ -37,18 +37,11 @@ exports.signUp = (req, res) => {
         .then((userCredential) => {
             const user = userCredential.user;
             const password = userCredential.user.reloadUserInfo.passwordHash;
-            const firstName = req.body.firstName;
-            const lastName = req.body.lastName;
-            const birthday = req.body.birthday;
 
             set(ref(database, 'users/' + user.uid), {
                 email: email,
-                password: password,
-                firstName: firstName,
-                lastName: lastName,
-                birthday: birthday
             });
-            res.status(200).json({ token: token, user: { email, password, firstName, lastName, birthday } });
+            res.status(200).json({ token: token, user: { email, password } });
         })
         .catch((error) => {
             res.status(400).json({
@@ -76,6 +69,7 @@ exports.signIn = (req, res) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
+                console.log(user)
                 const password = userCredential.user.reloadUserInfo.passwordHash;
                 const dt = new Date();
 
@@ -85,7 +79,7 @@ exports.signIn = (req, res) => {
                 });
                 res
                     .status(200)
-                    .send({ token: token, user: { email: email, password: password } });
+                    .send({ token: token, user: { email: email, password: password, userId: user.uid } });
             })
             .catch((error) => {
                 res.status(400).send({

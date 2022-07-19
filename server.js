@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 const port = process.env.PORT || 3000;
 const mysqlConnection = require('./settings/mysqlDb');
+const createUser = require('./models/user');
 
 app.use(cors());
 
