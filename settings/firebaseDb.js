@@ -1,6 +1,7 @@
 // const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require('./../settings/mysqlDb');
+const config = require('./../config/mysqlConfig')
 
 const { initializeApp } = require("firebase/app");
 const { getDatabase, set, ref, update } = require("firebase/database");
@@ -93,7 +94,7 @@ exports.signIn = (req, res) => {
             {
                 email: email,
             },
-            "supersecret",
+            config.jwt,
             {
                 expiresIn: 120 * 120,
             }
@@ -102,6 +103,7 @@ exports.signIn = (req, res) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
+                console.log(user)
                 // const password = userCredential.user.reloadUserInfo.passwordHash;
                 const dt = new Date();
 

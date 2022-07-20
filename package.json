@@ -24,6 +24,8 @@
     "firebase": "^9.9.0",
     "firebase-admin": "^11.0.0",
     "firebase-scrypt": "^2.2.0",
-    "firebase-tools": "^11.2.2"
+    "firebase-tools": "^11.2.2",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.0"
   }
 }
