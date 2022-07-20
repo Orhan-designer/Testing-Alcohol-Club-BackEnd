@@ -1,4 +1,3 @@
-// const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require('./../settings/mysqlDb');
 const config = require('./../config/mysqlConfig')
@@ -40,7 +39,6 @@ exports.signUp = (req, res) => {
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            // const password = userCredential.user.reloadUserInfo.passwordHash;
 
             const selectUser = "SELECT id, email, firstName, lastName, birthday FROM users WHERE email = '" + email + "'"
 
@@ -89,44 +87,43 @@ exports.signIn = (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    if (password) {
-        const token = jwt.sign(
-            {
-                email: email,
-            },
-            config.jwt,
-            {
-                expiresIn: 120 * 120,
-            }
-        );
+    const token = jwt.sign(
+        {
+            email: email,
+        },
+        config.jwt,
+        {
+            expiresIn: 120 * 120,
+        }
+    );
 
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                // const password = userCredential.user.reloadUserInfo.passwordHash;
-                const dt = new Date();
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            // const password = userCredential.user.reloadUserInfo.passwordHash;
+            const dt = new Date();
 
-                const userSql = `SELECT * FROM users`;
+            const userSql = `SELECT * FROM users`;
 
-                db.query(userSql, (error, result) => {
-                    if (error) {
-                        console.log(error)
-                    } else {
-                        res.status(200).send({ message: 'User successfully sign in', token: `Bearer ${token}`, user: { email: email, firstName: result[0].firstName, lastName: result[0].lastName, birthday: result[0].birthday } });
-                    }
-                })
-
-                update(ref(database, "users/" + user.uid), {
-                    email: email,
-                    last_login: dt,
-                });
-
+            db.query(userSql, (error, result) => {
+                if (error) {
+                    console.log(error)
+                } else {
+                    const userFind = result.find(el => el.email === email)
+                    res.status(200).send({ message: 'User successfully sign in', token: `Bearer ${token}`, user: { email: email, firstName: userFind.firstName, lastName: userFind.lastName, birthday: userFind.birthday } });
+                }
             })
-            .catch((error) => {
-                res.status(400).send({
-                    message: "Invalid email or password",
-                    error,
-                });
+
+            update(ref(database, "users/" + user.uid), {
+                email: email,
+                last_login: dt,
             });
-    }
+
+        })
+        .catch((error) => {
+            res.status(400).send({
+                message: "Invalid email or password",
+                error,
+            });
+        });
 };
