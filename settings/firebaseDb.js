@@ -103,7 +103,6 @@ exports.signIn = (req, res) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log(user)
                 // const password = userCredential.user.reloadUserInfo.passwordHash;
                 const dt = new Date();
 
