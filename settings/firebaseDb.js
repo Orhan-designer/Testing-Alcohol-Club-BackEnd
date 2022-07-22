@@ -19,7 +19,6 @@ const firebaseConfig = {
     storageBucket: "testing-alcohol-club-f6e1d.appspot.com",
     messagingSenderId: "161740699903",
     appId: "1:161740699903:web:90eefd850c130458e0b4ca",
-    // measurementId: "G-7YHM95B8DK"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -45,13 +44,6 @@ exports.signUp = (req, res) => {
             db.query(selectUser, (error, selectUserResult) => {
                 if (error) {
                     res.status(400).send(error)
-                } else if (typeof selectUserResult !== 'undefined' && selectUserResult.length > 0) {
-                    const row = JSON.parse(JSON.stringify(selectUserResult))
-
-                    row.map(() => {
-                        res.status(302, { error: `user with this email ${email} already exists` }, res)
-                        return true;
-                    })
                 } else {
                     const userSql = "INSERT INTO users(email, firstName, lastName, birthday) VALUES('" +
                         email + "', '" +
@@ -76,7 +68,7 @@ exports.signUp = (req, res) => {
         })
         .catch((error) => {
             res.status(400).json({
-                message: "User already exists",
+                message: `user with this email ${email} already exists`,
                 error,
             });
         });
