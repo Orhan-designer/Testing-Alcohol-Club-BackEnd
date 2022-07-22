@@ -7,6 +7,5 @@ module.exports = (app) => {
     app.route('/api/auth/signin').post(userCreateForFirebase.signIn);
 
     app.route('/api/users').get(auth, usersListController.getAllUsers);
-
     
 }
