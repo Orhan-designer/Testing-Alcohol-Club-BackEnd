@@ -8,4 +8,5 @@ module.exports = (app) => {
 
     app.route('/api/users').get(auth, usersListController.getAllUsers);
 
+    
 }
