@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const config = require('./../config/mysqlConfig')
+const config = require('../config/mysqlConfig')
 
 module.exports = (req, res, next) => {
     const token =

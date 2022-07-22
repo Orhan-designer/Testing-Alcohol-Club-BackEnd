@@ -1,4 +1,4 @@
-const db = require('./../settings/mysqlDb');
+const db = require('../settings/mysqlDb');
 
 exports.getAllUsers = (req, res) => {
     try {

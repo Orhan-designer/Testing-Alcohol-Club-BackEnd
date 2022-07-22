@@ -1,7 +1,7 @@
 module.exports = (app) => {
-    const auth = require('../middleware/auth');
+    const auth = require('../Middleware/auth');
     const userCreateForFirebase = require('./firebaseDb');
-    const usersListController = require('./../controllers/usersController')
+    const usersListController = require('../Controllers/usersController')
 
     app.route('/api/auth/signup').post(userCreateForFirebase.signUp);
     app.route('/api/auth/signin').post(userCreateForFirebase.signIn);
