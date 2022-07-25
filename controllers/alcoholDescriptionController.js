@@ -19,8 +19,7 @@ exports.newAlcohol = (req, res) => {
             if (error) {
                 return { message: error }
             } else {
-                console.log('all good');
-                res.status(200).json({ result: result });
+                res.status(200).json({ result: result, message: 'Drink successfully added' });
             }
         })
     } catch (error) {
