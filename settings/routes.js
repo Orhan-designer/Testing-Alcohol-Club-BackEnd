@@ -6,7 +6,7 @@ module.exports = (app) => {
     const getAlcohol = require('../controllers/getAlcoholController');
 
     app.route('/api/auth/signup').post(userCreateForFirebase.signUp);
-    app.route('/api/auth/signin').put(userCreateForFirebase.signIn);
+    app.route('/api/auth/signin').post(userCreateForFirebase.signIn);
     app.route('/api/add-new-alcohol').post(alcoholModel.newAlcohol);
 
     app.route('/api/users').get(auth, usersListController.getAllUsers);
