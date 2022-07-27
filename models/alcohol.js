@@ -2,18 +2,22 @@ const db = require('./../settings/mysqlDb');
 
 module.exports = db.connect((error) => {
     if (error) {
-        console.log(error)
+       return console.log(error);
     }
 
-    // let createUser = `CREATE TABLE IF NOT EXISTS alcohols(id int primary key auto_increment, 
-    //     userName VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, produced VARCHAR(255) NOT NULL, 
-    //     nameOfAlcohol VARCHAR(255) NOT NULL, alcoholContent VARCHAR(255) NOT NULL)`
+    // let createUser = `CREATE TABLE IF NOT EXISTS alcohols(
+    //     id int primary key auto_increment, 
+    //     userName varchar(255) not null, 
+    //     produced varchar(255) not null, 
+    //     nameOfAlcohol varchar(255) not null, 
+    //     userId int not null
+    // )`;
 
     // db.query(createUser, (error, result) => {
     //     if (error) {
-    //         console.log(error)
+    //         return console.log(error);
     //     } else {
-    //         console.log('table created')
+    //         return console.log('alcohol table created');
     //     }
     // })
 })

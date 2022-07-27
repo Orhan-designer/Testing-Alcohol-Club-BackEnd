@@ -2,7 +2,7 @@ const db = require('../settings/mysqlDb');
 
 exports.getAlcohol = (req, res) => {
     try {
-        const users = "SELECT * FROM alcohols"
+        const users = "SELECT * FROM typeOfAlcohol"
 
         db.query(users, (error, result) => {
             if (error) {

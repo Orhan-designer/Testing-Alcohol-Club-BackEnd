@@ -62,7 +62,7 @@ exports.signUp = (req, res) => {
                     set(ref(database, 'users/' + user.uid), {
                         email: email,
                     });
-                    res.status(200).json({ message: 'User successfully registered', token: `Bearer ${token}`, user: { email, firstName, lastName, birthday } });
+                    res.status(200).json({ message: 'User successfully registered', token: token, user: { email, firstName, lastName, birthday } });
                 }
             })
         })
@@ -102,7 +102,7 @@ exports.signIn = (req, res) => {
                     console.log(error)
                 } else {
                     const userFind = result.find(el => el.email === email)
-                    res.status(200).send({ message: 'User successfully sign in', token: `Bearer ${token}`, user: { email: email, firstName: userFind.firstName, lastName: userFind.lastName, birthday: userFind.birthday } });
+                    res.status(200).send({ message: 'User successfully sign in', token: token, user: { email: email, firstName: userFind.firstName, lastName: userFind.lastName, birthday: userFind.birthday } });
                 }
             })
 

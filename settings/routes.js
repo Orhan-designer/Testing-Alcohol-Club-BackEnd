@@ -3,14 +3,14 @@ module.exports = (app) => {
     const userCreateForFirebase = require('./firebaseDb');
     const usersListController = require('../controllers/usersController');
     const alcoholModel = require('./../controllers/alcoholDescriptionController');
-    const getAlcohol = require('../controllers/getAlcoholController');
+    const getAlcoholController = require('../controllers/getAlcoholController');
 
     app.route('/api/auth/signup').post(userCreateForFirebase.signUp);
     app.route('/api/auth/signin').post(userCreateForFirebase.signIn);
-    app.route('/api/add-new-alcohol').post(alcoholModel.newAlcohol);
+    app.route('/api/add-new-alcohol').post(auth, alcoholModel.newAlcohol);
 
     app.route('/api/users').get(auth, usersListController.getAllUsers);
-    app.route('/api/get-alcohol').get(auth, getAlcohol.getAlcohol);
+    app.route('/api/get-alcohol').get(auth, getAlcoholController.getAlcohol);
 
     app.route('/').get((req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,6 +18,6 @@ module.exports = (app) => {
         res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
         res.setHeader('Access-Control-Allow-Credentials', true); // If needed
 
-        res.send('cors problem fixed:)')
+        res.send('cors problem fixed:)');
     })
 }
