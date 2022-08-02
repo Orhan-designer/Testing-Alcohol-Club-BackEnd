@@ -7,7 +7,9 @@ const mysqlConnection = require('./settings/mysqlDb');
 const db = require('./settings/mongodb');
 // const createUser = require('./models/user');
 // const createAlcohol = require('./models/alcohol');
-// const createTypeOfAlcohol = require('./models/parentTypeOfAlcohol');
+// const createTypeOfAlcohol = require('./models/typeOfAlcohol');
+// const category = require('./models/category');
+// const myDrinks = require('./models/myDrinks');
 
 app.use(cors());
 

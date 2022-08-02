@@ -2,15 +2,19 @@ module.exports = (app) => {
     const auth = require('../middleware/auth');
     const userCreateForFirebase = require('./firebaseDb');
     const usersListController = require('../controllers/usersController');
-    const alcoholModel = require('./../controllers/alcoholDescriptionController');
+    const drinkModel = require('../controllers/drinkController');
+    // const typesOfAlcohol = require('../controllers/typesOfAlcohol');
     const getAlcoholController = require('../controllers/getAlcoholController');
+    const test = require('../controllers/testController');
 
     app.route('/api/auth/signup').post(userCreateForFirebase.signUp);
     app.route('/api/auth/signin').post(userCreateForFirebase.signIn);
-    app.route('/api/add-new-alcohol').post(auth, alcoholModel.newAlcohol);
+    app.route('/api/add-new-alcohol').post(auth, drinkModel.newDrink);
+
 
     app.route('/api/users').get(auth, usersListController.getAllUsers);
     app.route('/api/get-alcohol').get(auth, getAlcoholController.getAlcohol);
+    app.route('/api/search').get(test.test);
 
     app.route('/').get((req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');

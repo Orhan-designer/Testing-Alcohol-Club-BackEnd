@@ -39,12 +39,13 @@ exports.signUp = (req, res) => {
         .then((userCredential) => {
             const user = userCredential.user;
 
-            const selectUser = "SELECT id, email, firstName, lastName, birthday FROM users WHERE email = '" + email + "'"
+            const selectUser = "SELECT * FROM users WHERE email = '" + email + "'"
 
             db.query(selectUser, (error, selectUserResult) => {
                 if (error) {
                     res.status(400).send(error)
                 } else {
+
                     const userSql = "INSERT INTO users(email, firstName, lastName, birthday) VALUES('" +
                         email + "', '" +
                         firstName + "', '" +
@@ -55,14 +56,15 @@ exports.signUp = (req, res) => {
                         if (error) {
                             res.send(400).json({ result: error })
                         } else {
-                            return result;
+
+                            set(ref(database, 'users/' + user.uid), {
+                                email: email,
+                            });
+
+                            let id = result.insertId;
+                            res.status(200).json({ message: 'User successfully registered', token: token, user: { id, email, firstName, lastName, birthday } });
                         }
                     })
-
-                    set(ref(database, 'users/' + user.uid), {
-                        email: email,
-                    });
-                    res.status(200).json({ message: 'User successfully registered', token: token, user: { email, firstName, lastName, birthday } });
                 }
             })
         })
@@ -101,15 +103,17 @@ exports.signIn = (req, res) => {
                 if (error) {
                     console.log(error)
                 } else {
+
+                    update(ref(database, "users/" + user.uid), {
+                        email: email,
+                        last_login: dt,
+                    });
                     const userFind = result.find(el => el.email === email)
-                    res.status(200).send({ message: 'User successfully sign in', token: token, user: { email: email, firstName: userFind.firstName, lastName: userFind.lastName, birthday: userFind.birthday } });
+                    res.status(200).send({ message: 'User successfully sign in', token: token, user: { id: userFind.id, email: email, firstName: userFind.firstName, lastName: userFind.lastName, birthday: userFind.birthday } });
                 }
             })
 
-            update(ref(database, "users/" + user.uid), {
-                email: email,
-                last_login: dt,
-            });
+
 
         })
         .catch((error) => {
