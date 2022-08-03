@@ -5,16 +5,19 @@ module.exports = (app) => {
     const drinkModel = require('../controllers/drinkController');
     // const typesOfAlcohol = require('../controllers/typesOfAlcohol');
     const getAlcoholController = require('../controllers/getAlcoholController');
-    const test = require('../controllers/testController');
+    const getByCategoriesController = require('../controllers/getByCategoriesController');
+    const getByIdController = require('../controllers/getByIdController');
+    const createNewDrinkController = require('../controllers/createNewDrinkController');
 
     app.route('/api/auth/signup').post(userCreateForFirebase.signUp);
     app.route('/api/auth/signin').post(userCreateForFirebase.signIn);
-    app.route('/api/add-new-alcohol').post(auth, drinkModel.newDrink);
-
+    // app.route('/api/add-new-alcohol').post(auth, drinkModel.newDrink);
+    app.route('/api/add-new-alcohol').post(createNewDrinkController.createNewDrink);
 
     app.route('/api/users').get(auth, usersListController.getAllUsers);
     app.route('/api/get-alcohol').get(auth, getAlcoholController.getAlcohol);
-    app.route('/api/search/:value').get(test.test);
+    app.route('/api/get-by-category/:value').get(getByCategoriesController.getByCategory);
+    app.route('/api/get-by-id/:id').get(getByIdController.getById);
 
     app.route('/').get((req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');

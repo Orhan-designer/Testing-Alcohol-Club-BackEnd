@@ -10,7 +10,7 @@ module.exports = db.connect((error) => {
     //     mongoId int not null,
     //     userName varchar(255) not null,
     //     rating varchar(255) not null,
-    //     descriptionAboutDrink varchar(255) not null,
+    //     feedBack varchar(255) not null,
     //     dateOfDegustation varchar(255) not null
     // )`;
 

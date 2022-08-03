@@ -11,7 +11,8 @@ exports.newDrink = (req, res) => {
         const userName = req.body.userName;
         const userId = req.body.userId;
 
-        const users = "INSERT INTO drinks SET userName = '" + userName + "', userId = '" +
+        const users = "INSERT INTO drinks SET userName = '" +
+            userName + "', userId = '" +
             userId + "', typeName = '" +
             typeName + "', typeId = '" +
             typeId + "', categoryName = '" +
