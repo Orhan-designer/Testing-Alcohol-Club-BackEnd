@@ -14,7 +14,7 @@ module.exports = (app) => {
 
     app.route('/api/users').get(auth, usersListController.getAllUsers);
     app.route('/api/get-alcohol').get(auth, getAlcoholController.getAlcohol);
-    app.route('/api/search').get(test.test);
+    app.route('/api/search/:value').get(test.test);
 
     app.route('/').get((req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
