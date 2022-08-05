@@ -26,21 +26,20 @@ exports.createNewDrink = (req, res) => {
                 grape: grape,
                 category: category,
                 typeOfDrink: typeOfDrink
-
             }, (err, result) => {
                 if (err) {
-                    return console.log(error)
+                    return console.log(error);
                 } else {
                     const selectFromUsers = "SELECT firstName FROM users";
 
                     mysqlDb.query(selectFromUsers, (error, userResult) => {
                         if (error) {
-                            return console.log('User not found')
+                            return console.log('User not found');
                         } else {
                             const rating = req.body.rating;
                             const feedBack = req.body.feedBack;
                             const dateOfDegustation = req.body.dateOfDegustation;
-
+                            /* нужно отфильтровать пользователей в массиве, которые будут добавлять новый напиток */
                             const insertToDrinks = "INSERT INTO drinksRating SET mongoId = '" +
                                 result.insertedId + "', userName = '" +
                                 userResult[0].firstName + "', rating = '" +
@@ -50,14 +49,13 @@ exports.createNewDrink = (req, res) => {
 
                             mysqlDb.query(insertToDrinks, (error, insertResult) => {
                                 if (error) {
-                                    return console.log('Error');
+                                    res.status(400).json({ message: 'Error' });
                                 } else {
                                     res.status(200).json({ message: 'Drink created', result: result });
                                 }
-                            })
-
+                            });
                         }
-                    })
+                    });
                 }
             });
         });

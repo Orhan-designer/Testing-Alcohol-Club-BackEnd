@@ -15,9 +15,9 @@ app.use(cors());
 
 mysqlConnection.connect((error) => {
     if (error) {
-        return console.log('Ошибка подключения к БД');
+        return console.log('Error connect to Mysql...');
     } else {
-        return console.log('Подключение к БД успешно...')
+        return console.log('Successful connected to Mysql...')
     }
 });
 
