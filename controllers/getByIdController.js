@@ -6,21 +6,20 @@ const db = require('../settings/mysqlDb');
 
 exports.getById = (req, res) => {
     try {
-        const selectFromTable = "SELECT rating, feedBack, dateOfDegustation FROM drinksRating"
+        const id = req.params.id;
+        const selectFromTable = "SELECT mongoId, rating, feedBack, dateOfDegustation FROM drinksRating WHERE mongoId = '" + id + "'";
 
         db.query(selectFromTable, (error, tableResult) => {
-            if (!tableResult) {
-                return res.status(400).json({ message: 'Fields are empty' })
+            if (error) {
+                return res.status(400).json({ error: error })
             } else {
                 mongoClient.connect((error, client) => {
                     const db = client.db('tastingclub');
-                    const id = req.params.id;
                     const collection = db.collection('drinks').findOne({ '_id': ObjectId(id) }, (err, result) => {
-                        // console.log(result)
                         if (err) {
                             return console.log(error);
                         };
-                        res.status(200).json({ message: 'Drink find', result: result });
+                        res.status(200).json({ message: 'Drink find', result: result, tableResult: tableResult });
                     });
                 });
             }

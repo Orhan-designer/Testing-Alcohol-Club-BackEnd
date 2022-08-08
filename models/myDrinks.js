@@ -9,6 +9,7 @@ module.exports = db.connect((error) => {
     //     id int primary key auto_increment,
     //     mongoId int not null,
     //     userName varchar(255) not null,
+    //     userId int not null,
     //     rating varchar(255) not null,
     //     feedBack varchar(255) not null,
     //     dateOfDegustation varchar(255) not null
