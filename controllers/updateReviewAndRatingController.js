@@ -11,11 +11,13 @@ exports.updateReviewAndRating = (req, res) => {
             if (error) {
                 return res.status(400).json({ error: error });
             } else {
+                const firstName = req.body.firstName;
                 const rating = req.body.rating;
                 const feedBack = req.body.feedBack;
                 const dateOfDegustation = req.body.dateOfDegustation;
 
-                const updateTable = "UPDATE drinksRating SET userId = '" +
+                const updateTable = "UPDATE drinksRating SET userName = '" +
+                    firstName + "', userId = '" +
                     userId + "', rating = '" +
                     rating + "', feedBack = '" +
                     feedBack + "', dateOfDegustation = '" +
@@ -25,7 +27,7 @@ exports.updateReviewAndRating = (req, res) => {
                     if (error) {
                         return res.status(400).json({ error: error });
                     } else {
-                        return res.status(200).json({ message: 'Table data was updated successfully', updateResult });
+                        return res.status(200).json({ message: 'Data was updated successfully', updateResult });
                     }
                 });
             }
