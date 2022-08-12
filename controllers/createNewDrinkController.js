@@ -30,6 +30,7 @@ exports.createNewDrink = (req, res) => {
                 if (err) {
                     return console.log(error);
                 } else {
+                    /* подставить в select запрос id и firstName пользователя. Досать их можно с localStorage */
                     const selectFromUsers = "SELECT firstName FROM users";
 
                     mysqlDb.query(selectFromUsers, (error, userResult) => {

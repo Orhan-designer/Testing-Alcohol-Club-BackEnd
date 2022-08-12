@@ -7,7 +7,7 @@ const db = require('../settings/mysqlDb');
 exports.getById = (req, res) => {
     try {
         const id = req.params.id;
-        const selectFromTable = "SELECT mongoId, rating, feedBack, dateOfDegustation FROM drinksRating WHERE mongoId = '" + id + "'";
+        const selectFromTable = "SELECT * FROM drinksRating WHERE mongoId = '" + id + "'";
 
         db.query(selectFromTable, (error, tableResult) => {
             if (error) {

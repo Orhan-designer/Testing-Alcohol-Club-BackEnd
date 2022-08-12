@@ -6,6 +6,7 @@ module.exports = (app) => {
     const getByIdController = require('../controllers/getByIdController');
     const createNewDrinkController = require('../controllers/createNewDrinkController');
     const updateReviewAndRatingController = require('../controllers/updateReviewAndRatingController');
+    const getShortInfoAboutDrinkController = require('../controllers/getShortInfoAboutDrinkController');
 
     /* CRUD API for users */
     app.route('/api/auth/signup').post(userCreateForFirebase.signUp);
@@ -20,6 +21,7 @@ module.exports = (app) => {
     /* Get API for getting drinks by categories and id's */
     app.route('/api/get-by-category/:value').get(getByCategoriesController.getByCategory);
     app.route('/api/get-by-id/:id').get(getByIdController.getById);
+    app.route('/api/get-short-info').get(getShortInfoAboutDrinkController.getShortInfoAboutDrink);
     /* *********** */
 
     /* Update API for ratings, reviews and data of degustation */

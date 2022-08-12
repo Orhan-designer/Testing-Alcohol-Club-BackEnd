@@ -27,7 +27,7 @@ exports.updateReviewAndRating = (req, res) => {
                     if (error) {
                         return res.status(400).json({ error: error });
                     } else {
-                        return res.status(200).json({ message: 'Data was updated successfully', updateResult });
+                        return res.status(200).json({ message: 'Review was updated successfully', updateResult });
                     }
                 });
             }

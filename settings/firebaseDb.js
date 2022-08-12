@@ -62,7 +62,7 @@ exports.signUp = (req, res) => {
                             });
 
                             let id = result.insertId;
-                            res.status(200).json({ message: 'User successfully registered', token: token, user: { id, email, firstName, lastName, birthday } });
+                            res.status(200).json({ message: 'You successfully registered', token: token, user: { id, email, firstName, lastName, birthday } });
                         }
                     })
                 }
@@ -109,7 +109,7 @@ exports.signIn = (req, res) => {
                         last_login: dt,
                     });
                     const userFind = result.find(el => el.email === email)
-                    res.status(200).send({ message: 'User successfully sign in', token: token, user: { id: userFind.id, email: email, firstName: userFind.firstName, lastName: userFind.lastName, birthday: userFind.birthday } });
+                    res.status(200).send({ message: 'You successfully sign in', token: token, user: { id: userFind.id, email: email, firstName: userFind.firstName, lastName: userFind.lastName, birthday: userFind.birthday } });
                 }
             })
 
