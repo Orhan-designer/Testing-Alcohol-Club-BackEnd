@@ -22,8 +22,8 @@ exports.getShortInfoAboutDrink = (req, res) => {
                         let findElement = tableResult.map(el => {
                             let res = resultFromMongo.find(el2 => el2._id?.toString() === el.mongoId);
 
-                            delete el.rating
-                            delete el.feedBack
+                            // delete el.rating
+                            // delete el.feedBack
                             delete el.dateOfDegustation
                             delete el.userId
 

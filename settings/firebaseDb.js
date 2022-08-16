@@ -101,7 +101,7 @@ exports.signIn = (req, res) => {
 
             db.query(userSql, (error, result) => {
                 if (error) {
-                    console.log(error)
+                    res.status(400).send({ message: "Something goes wrong" });
                 } else {
 
                     update(ref(database, "users/" + user.uid), {
@@ -111,10 +111,7 @@ exports.signIn = (req, res) => {
                     const userFind = result.find(el => el.email === email)
                     res.status(200).send({ message: 'You successfully sign in', token: token, user: { id: userFind.id, email: email, firstName: userFind.firstName, lastName: userFind.lastName, birthday: userFind.birthday } });
                 }
-            })
-
-
-
+            });
         })
         .catch((error) => {
             res.status(400).send({

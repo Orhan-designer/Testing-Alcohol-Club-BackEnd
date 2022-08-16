@@ -15,17 +15,17 @@ module.exports = (app) => {
     /* *********** */
 
     /* Post API for create new drink */
-    app.route('/api/add-new-alcohol').post(createNewDrinkController.createNewDrink);
+    app.route('/api/add-new-alcohol').post(/* here should be auth middleware */createNewDrinkController.createNewDrink);
     /* *********** */
 
     /* Get API for getting drinks by categories and id's */
-    app.route('/api/get-by-category/:value').get(getByCategoriesController.getByCategory);
-    app.route('/api/get-by-id/:id').get(getByIdController.getById);
-    app.route('/api/get-short-info').get(getShortInfoAboutDrinkController.getShortInfoAboutDrink);
+    app.route('/api/get-by-category/:value').get(/* here should be auth middleware */getByCategoriesController.getByCategory);
+    app.route('/api/get-by-id/:id').get(/* here should be auth middleware */getByIdController.getById);
+    app.route('/api/get-short-info').get(/* here should be auth middleware */getShortInfoAboutDrinkController.getShortInfoAboutDrink);
     /* *********** */
 
     /* Update API for ratings, reviews and data of degustation */
-    app.route('/api/update/:id').put(updateReviewAndRatingController.updateReviewAndRating);
+    app.route('/api/update/:id').put(/* here should be auth middleware */updateReviewAndRatingController.updateReviewAndRating);
     /* *********** */
 
     app.route('/').get((req, res) => {
