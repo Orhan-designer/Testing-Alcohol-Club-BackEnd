@@ -6,11 +6,9 @@ const port = process.env.PORT || 3000;
 const mysqlConnection = require('./settings/mysqlDb');
 const db = require('./settings/mongodb');
 // const createUser = require('./models/user');
-// const createAlcohol = require('./models/alcohol');
-// const createTypeOfAlcohol = require('./models/typeOfAlcohol');
-// const category = require('./models/category');
 // const myDrinks = require('./models/myDrinks');
-
+// const groups = require('./models/groups');
+// const usersGroups = require('./models/usersGroups');
 app.use(cors());
 
 mysqlConnection.connect((error) => {

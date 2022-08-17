@@ -17,7 +17,7 @@ exports.updateReviewAndRating = (req, res) => {
                 const dateOfDegustation = req.body.dateOfDegustation;
 
                 //check for empty feed back
-                if (!feedBack || feedBack === '') {
+                if (!feedBack) {
                     return res.status(400).json({ error: 'You should leave you review' });
                 }
 
