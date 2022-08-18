@@ -17,7 +17,7 @@ exports.createNewDrink = (req, res) => {
             const category = req.body.category;
             const typeOfDrink = req.body.typeOfDrink;
 
-            const collection = db.collection('drinks').insertOne({
+            db.collection('drinks').insertOne({
                 name: name,
                 region: region,
                 manufacturer: manufacturer,
@@ -27,7 +27,6 @@ exports.createNewDrink = (req, res) => {
                 category: category,
                 typeOfDrink: typeOfDrink,
             }, (err, result) => {
-                console.log('res', result);
                 if (err) {
                     return console.log(error);
                 } else {

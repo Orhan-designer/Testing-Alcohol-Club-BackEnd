@@ -8,6 +8,7 @@ module.exports = (app) => {
     const updateReviewAndRatingController = require('../controllers/updateReviewAndRatingController');
     const getShortInfoAboutDrinkController = require('../controllers/getShortInfoAboutDrinkController');
     const createNewGroupController = require('../controllers/createNewGroupController');
+    const deleteDrinkController = require('../controllers/deleteDrinkController');
 
     /* CRUD API for users */
     app.route('/api/auth/signup').post(userCreateForFirebase.signUp);
@@ -15,8 +16,9 @@ module.exports = (app) => {
     app.route('/api/users').get(auth, usersListController.getAllUsers);
     /* *********** */
 
-    /* Post API for create new drink */
+    /* CRUD for drink */
     app.route('/api/add-new-alcohol').post(/* here should be auth middleware */createNewDrinkController.createNewDrink);
+    app.route('/api/delete-drink/:id').delete(/* here should be auth middleware */deleteDrinkController.deleteDrink);
     /* *********** */
 
     /* Get API for getting drinks by categories and id's */

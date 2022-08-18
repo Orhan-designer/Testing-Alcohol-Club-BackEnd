@@ -14,9 +14,11 @@ exports.getShortInfoAboutDrink = (req, res) => {
                 res.status(400).json({ error: error });
             } else {
                 const mongoId = tableResult.map(el => ObjectId(el.mongoId));
+
                 mongoClient.connect((error, client) => {
                     const db = client.db('tastingclub');
-                    const collection = db.collection('drinks').find({ '_id': { $in: mongoId } }).toArray((err, result) => {
+                    
+                    db.collection('drinks').find({ '_id': { $in: mongoId } }).toArray((err, result) => {
                         let resultFromMongo = result;
 
                         let findElement = tableResult.map(el => {

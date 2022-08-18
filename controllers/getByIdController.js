@@ -15,11 +15,12 @@ exports.getById = (req, res) => {
             } else {
                 mongoClient.connect((error, client) => {
                     const db = client.db('tastingclub');
-                    const collection = db.collection('drinks').findOne({ '_id': ObjectId(id) }, (err, result) => {
+
+                    db.collection('drinks').findOne({ '_id': ObjectId(id) }, (err, result) => {
                         if (err) {
-                            return console.log(error);
+                            return res.status(400).json({ error: 'Drink not found' });
                         };
-                        res.status(200).json({ message: 'Drink find', result: result, tableResult: tableResult });
+                        return res.status(200).json({ message: 'Drink find', result: result, tableResult: tableResult });
                     });
                 });
             }
