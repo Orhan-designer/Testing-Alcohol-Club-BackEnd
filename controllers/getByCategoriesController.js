@@ -12,6 +12,7 @@ exports.getByCategory = (req, res) => {
             const collection = db.collection('drinks').find(
                 { $or: [{ 'name': regex }, { 'region': regex }, { 'strength': regex }, { 'typeOfDrink': regex }] }
             ).toArray((err, result) => {
+                console.log(result);
                 if (err) {
                     return console.log(error);
                 }

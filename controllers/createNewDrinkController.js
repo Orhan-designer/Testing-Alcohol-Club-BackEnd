@@ -25,8 +25,9 @@ exports.createNewDrink = (req, res) => {
                 volume: volume,
                 grape: grape,
                 category: category,
-                typeOfDrink: typeOfDrink
+                typeOfDrink: typeOfDrink,
             }, (err, result) => {
+                console.log('res', result);
                 if (err) {
                     return console.log(error);
                 } else {
