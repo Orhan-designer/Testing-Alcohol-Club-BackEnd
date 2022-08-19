@@ -18,7 +18,7 @@ module.exports = (app) => {
 
     /* CRUD for drink */
     app.route('/api/add-new-alcohol').post(/* here should be auth middleware */createNewDrinkController.createNewDrink);
-    app.route('/api/delete-drink/:id').delete(/* here should be auth middleware */deleteDrinkController.deleteDrink);
+    app.route('/api/delete-drink').delete(/* here should be auth middleware */deleteDrinkController.deleteDrink);
     /* *********** */
 
     /* Get API for getting drinks by categories and id's */

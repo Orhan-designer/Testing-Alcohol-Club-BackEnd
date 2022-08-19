@@ -6,7 +6,7 @@ const mysqlDb = require('./../settings/mysqlDb');
 
 exports.deleteDrink = (req, res) => {
     try {
-        const mongoId = req.body.id;
+        const mongoId = req.query.mongoId;
 
         mongoClient.connect((error, client) => {
             const db = client.db('tastingclub');
@@ -15,7 +15,7 @@ exports.deleteDrink = (req, res) => {
                 if (err) {
                     return res.status(400).json({ error: 'An error occurred while deleting the drink' });
                 } else {
-                    const userId = req.params.id;
+                    const userId = req.query.userId;
                     const deleteFromTable = "DELETE FROM drinksRating WHERE userId = '" + userId + "' AND mongoId = '" + mongoId + "'";
 
                     mysqlDb.query(deleteFromTable, (error, deleteTableResult) => {
