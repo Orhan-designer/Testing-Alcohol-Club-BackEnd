@@ -6,7 +6,7 @@ const mysqlDb = require('./../settings/mysqlDb');
 
 exports.deleteDrink = (req, res) => {
     try {
-        const mongoId = req.params.id;
+        const mongoId = req.body.id;
 
         mongoClient.connect((error, client) => {
             const db = client.db('tastingclub');
@@ -15,11 +15,20 @@ exports.deleteDrink = (req, res) => {
                 if (err) {
                     return res.status(400).json({ error: 'An error occurred while deleting the drink' });
                 } else {
-                    res.status(200).json({ message: 'Drink deleted', result: result })
+                    const userId = req.params.id;
+                    const deleteFromTable = "DELETE FROM drinksRating WHERE userId = '" + userId + "' AND mongoId = '" + mongoId + "'";
+
+                    mysqlDb.query(deleteFromTable, (error, deleteTableResult) => {
+                        if (error) {
+                            return res.status(400).json({ error: "This drink not exist" });
+                        } else {
+                            return res.status(200).json({ message: 'Drink deleted', result: result });
+                        }
+                    });
                 }
-            })
-        })
+            });
+        });
     } catch (error) {
-        res.status(400).json({ error: error })
+        return res.status(400).json({ error: error });
     }
 }

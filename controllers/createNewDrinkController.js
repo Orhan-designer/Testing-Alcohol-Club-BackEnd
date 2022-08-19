@@ -7,7 +7,7 @@ exports.createNewDrink = (req, res) => {
     try {
         mongoClient.connect((error, client) => {
             const db = client.db('tastingclub');
-
+            const userId = req.body.userId;
             const name = req.body.name;
             const region = req.body.region;
             const manufacturer = req.body.manufacturer;
@@ -43,7 +43,8 @@ exports.createNewDrink = (req, res) => {
                             /* нужно отфильтровать пользователей в массиве, которые будут добавлять новый напиток */
                             const insertToDrinks = "INSERT INTO drinksRating SET mongoId = '" +
                                 result.insertedId + "', userName = '" +
-                                userResult[0].firstName + "', rating = '" +
+                                userResult[0].firstName + "', userId = '" +
+                                userId + "', rating = '" +
                                 rating + "', feedBack = '" +
                                 feedBack + "', dateOfDegustation = '" +
                                 dateOfDegustation + "'";
