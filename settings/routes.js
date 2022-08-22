@@ -9,6 +9,7 @@ module.exports = (app) => {
     const getShortInfoAboutDrinkController = require('../controllers/getShortInfoAboutDrinkController');
     const createNewGroupController = require('../controllers/createNewGroupController');
     const deleteDrinkController = require('../controllers/deleteDrinkController');
+    const getAllGroupsController = require('../controllers/getAllGroupsController');
 
     /* CRUD API for users */
     app.route('/api/auth/signup').post(userCreateForFirebase.signUp);
@@ -33,6 +34,7 @@ module.exports = (app) => {
 
     /* Post API for create new group */
     app.route('/api/create-new-group').post(/* here should be auth middleware */createNewGroupController.createNewGroup);
+    app.route('/api/groups/:id').get(/* here should be auth middleware */getAllGroupsController.getAllGroups);
     /* *********** */
 
     app.route('/').get((req, res) => {
