@@ -6,7 +6,6 @@ const ObjectId = require("mongodb").ObjectId;
 const mysqlDb = require("./../settings/mysqlDb");
 
 exports.deleteDrink = (req, res) => {
-  console.log(req.query);
   try {
     const mongoId = req.query.mongoId;
 
@@ -43,6 +42,6 @@ exports.deleteDrink = (req, res) => {
       );
     });
   } catch (error) {
-    return res.status(400).json({ error: error });
+    return res.status(400).json({ error: 'An error occurred while deleting' });
   }
 };

@@ -17,7 +17,7 @@ exports.getShortInfoAboutDrink = (req, res) => {
 
                 mongoClient.connect((error, client) => {
                     const db = client.db('tastingclub');
-                    
+
                     db.collection('drinks').find({ '_id': { $in: mongoId } }).toArray((err, result) => {
                         let resultFromMongo = result;
 
@@ -29,10 +29,10 @@ exports.getShortInfoAboutDrink = (req, res) => {
                             delete el.dateOfDegustation
                             delete el.userId
 
-                            delete res.grape
-                            delete res.manufacturer
-                            delete res.mongoId
-                            delete res.volume
+                            // delete res.grape
+                            // delete res.manufacturer
+                            // delete res.mongoId
+                            // delete res.volume
 
                             return { ...el, ...res };
                         })
