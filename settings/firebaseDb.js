@@ -12,13 +12,14 @@ const {
 } = require("firebase/auth");
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCvk-WvSpwt3mFGAGl5vUKdSXekdr9Eotc",
-    authDomain: "testing-alcohol-club-f6e1d.firebaseapp.com",
-    databaseURL: "https://testing-alcohol-club-f6e1d-default-rtdb.firebaseio.com",
-    projectId: "testing-alcohol-club-f6e1d",
-    storageBucket: "testing-alcohol-club-f6e1d.appspot.com",
-    messagingSenderId: "161740699903",
-    appId: "1:161740699903:web:90eefd850c130458e0b4ca",
+    apiKey: "AIzaSyCO7bDyu0Jio0MR-z7oW83xgWYljTMF7nE",
+    authDomain: "tasting-club.firebaseapp.com",
+    databaseURL: "https://tasting-club-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "tasting-club",
+    storageBucket: "tasting-club.appspot.com",
+    messagingSenderId: "746523921481",
+    appId: "1:746523921481:web:e05edde85542a5c0cd4398",
+    measurementId: "G-QZDMTQWEX8"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -43,7 +44,7 @@ exports.signUp = (req, res) => {
 
             db.query(selectUser, (error, selectUserResult) => {
                 if (error) {
-                    res.status(400).send(error)
+                    return res.status(400).send({ error: 'User not found' });
                 } else {
 
                     const userSql = "INSERT INTO users(email, firstName, lastName, birthday) VALUES('" +
@@ -54,7 +55,7 @@ exports.signUp = (req, res) => {
 
                     db.query(userSql, (error, result) => {
                         if (error) {
-                            res.send(400).json({ result: error })
+                            return res.send(400).json({ result: error })
                         } else {
 
                             set(ref(database, 'users/' + user.uid), {
@@ -62,7 +63,7 @@ exports.signUp = (req, res) => {
                             });
 
                             let id = result.insertId;
-                            res.status(200).json({ message: 'You successfully registered', token: token, user: { id, email, firstName, lastName, birthday } });
+                            return res.status(200).json({ message: 'You successfully registered', token: token, user: { id, email, firstName, lastName, birthday } });
                         }
                     })
                 }
@@ -70,7 +71,7 @@ exports.signUp = (req, res) => {
         })
         .catch((error) => {
             res.status(400).json({
-                message: `user with this email ${email} already exists`,
+                message: `User with this email ${email} already exists`,
                 error,
             });
         });
