@@ -53,7 +53,20 @@ exports.createNewDrink = (req, res) => {
                                 if (error) {
                                     res.status(400).json({ message: 'Error' });
                                 } else {
-                                    res.status(200).json({ message: 'Drink created', result: result });
+                                    const insertAllReviews = "INSERT INTO allReviews SET mongoId = '" +
+                                        result.insertedId + "', userId = '" +
+                                        userId + "', rating = '" +
+                                        rating + "', feedBack = '" +
+                                        feedBack + "', dateOfDegustation = '" +
+                                        dateOfDegustation + "'";
+
+                                    mysqlDb.query(insertAllReviews, (error, allReviewsResults) => {
+                                        if (error) {
+                                            return res.status(400).json({ error: 'Cannot insert into table' })
+                                        } else {
+                                            res.status(200).json({ message: 'Drink created', result: result });
+                                        }
+                                    })
                                 }
                             });
                         }

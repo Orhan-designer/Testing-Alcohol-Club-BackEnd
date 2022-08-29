@@ -9,6 +9,7 @@ const db = require('./settings/mongodb');
 // const myDrinks = require('./models/myDrinks');
 // const groups = require('./models/groups');
 // const usersGroups = require('./models/usersGroups');
+// const createAllReviews = require('./models/allReviews')
 app.use(cors());
 
 mysqlConnection.connect((error) => {

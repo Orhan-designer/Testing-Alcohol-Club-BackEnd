@@ -32,7 +32,21 @@ exports.updateReviewAndRating = (req, res) => {
                     if (error) {
                         return res.status(400).json({ error: error });
                     } else {
+                        // const updateAllReviews = "UPDATE allReviews SET userName = '" +
+                        //     firstName + "', mongoId = '" +
+                        //     mongoId + "', userId = '" +
+                        //     userId + "', rating = '" +
+                        //     rating + "', feedBack = '" +
+                        //     feedBack + "', dateOfDegustation = '" +
+                        //     dateOfDegustation + "' WHERE mongoId = '" + mongoId + "'";
+
+                        // db.query(updateAllReviews, (error, updateAllReviewsResults) => {
+                        //     if (error) {
+                        //         return res.status(400).json({ error: 'Cannot update' })
+                        //     } else {
                         return res.status(200).json({ message: 'Review was updated successfully', updateResult });
+                        //     }
+                        // })
                     }
                 });
             }
