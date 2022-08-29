@@ -7,7 +7,7 @@ exports.getByCategory = (req, res) => {
         mongoClient.connect((error, client) => {
             const db = client.db('tastingclub');
             const searchTerm = req.params.value;
-            
+
             let regex = { $regex: '^' + searchTerm, $options: 'i' };
 
             db.collection('drinks').find(
